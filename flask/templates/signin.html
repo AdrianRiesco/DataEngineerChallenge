@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% set active_page = "login" %}
+
+{% block title %}SignIn{% endblock %}
+
+{% block content %}
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			{% for msg in messages %}
+				<p>{{msg}}</p>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+
+	<form action="#" method="POST">
+	  <fieldset>
+	    <legend>Welcome to the team! Please, introduce your information:</legend>
+	    <div class="form-group">
+	      <label for="inputUsername" class="form-label mt-4">Name</label>
+	      <input type="username" class="form-control" id="inputName" name="signin_name" placeholder="Enter your name">
+	    </div>
+	    <div class="form-group">
+	      <label for="inputUsername" class="form-label mt-4">Username</label>
+	      <input type="username" class="form-control" id="inputUsername" name="signin_username" placeholder="Enter username">
+	    </div>
+	    <div class="form-group">
+	      <label for="inputEmail" class="form-label mt-4">Email address</label>
+	      <input type="email" class="form-control" id="inputEmail" name="signin_email" placeholder="Enter email">
+	      <small id="emailHelp" class="form-text text-muted">We will never share your email with anyone else.</small>
+	    </div>
+	    <div class="form-group">
+	      <label for="exampleInputPassword1" class="form-label mt-4">Password</label>
+	      <input type="password" class="form-control" id="exampleInputPassword1" name="signin_password" placeholder="Password">
+	    </div>
+	    <div class="form-group">
+	      <label for="exampleInputPassword1" class="form-label mt-4">Repeat the password</label>
+	      <input type="password" class="form-control" id="exampleInputPassword1" name="input_password_repeat" placeholder="Password">
+	    </div>
+	    <div class="row justify-content-center">
+			<div class="col-sm-2" margin:10px>
+		    	<button type="submit" class="btn btn-primary">Sign In</button>
+	    	</div>
+    	</div>
+	  </fieldset>
+	</form>
+{% endblock %}

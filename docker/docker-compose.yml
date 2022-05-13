@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+    # Apache Spark master and two workers
+    web:
+        build: ../flask
+        image: flask-docker
+        networks:
+            - main_net
+        volumes:
+            - ../flask:/usr/local/flask
+        ports:
+            - "8000:5000"
+        depends_on:
+            - "database"
+    database:
+        image: mysql:8.0.21
+        networks:
+            - main_net
+        volumes:
+            - ../db:/docker-entrypoint-initdb.d/:ro
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+        ports:
+            - "30000:3306"
+
+networks:
+    main_net:
