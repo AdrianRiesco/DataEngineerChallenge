@@ -12,18 +12,37 @@
 				<p>{{msg}}</p>
 			{% endfor %}
 		{% endif %}
-	{% endwith %}
+	{% endwith %}	
 
-	<button type="button" class="btn btn-success">Success</button>
-	<input class="form-control" type="file" id="formFile">
-
-	<h1>List of public images</h1>
+	<div>
+	    <form method="POST" enctype="multipart/form-data">
+	    	{{form.hidden_tag()}}
+	    	<fieldset class="form-group">
+	    		<legend class="mt-4">Upload an image</legend>
+	    		<div class="custom-file">
+				    {{form.file(class="form-control")}}
+				    
+				</div>
+				<div>
+					{% for choice in form.visibility %}
+						<div class="form-check">
+							<label class="form-check-label">
+							{{choice(class="form-check-input")}}
+							{{choice.label()}}
+							</label>
+						</div>
+					{% endfor %}
+				</div>
+				<div>
+					{{form.send(class="btn btn-light")}}
+				</div>
+			</fieldset>
+		</form>
+	</div>
 
 	<h1>List of public images
 	{% for file in files %}
 		<img src="{{ url_for('upload', filename=file) }}" style="width: 64px">
 	{% endfor %}</h1>
-	
-	<img src="{{ url_for('static', filename='images/wolf') }}" style="width: 64px">
 
 {% endblock %}

@@ -13,24 +13,51 @@
 		{% endif %}
 	{% endwith %}
 
-	<form action="#" method="POST" class="row justify-content-md-center">
-		<div class="row justify-content-center">
+	<form action="#" method="post" class="row justify-content-md-center">
+	   {{form.hidden_tag()}}
+	   	<div class="row justify-content-center">
 			<p class="col-2">User Login</p>
 		</div>
 		<div class="form-floating mb-3">
-		  <input type="username" class="form-control" name="login_username" placeholder="Username">
-		  <label for="floatingInput">Username</label>
+	       	{% if form.username.errors %}
+ 
+	       		{{form.username(class="form-control is-invalid", placeholder="Username")}}
+	           	{% for error in form.username.errors %}
+	            	<div class="invalid-feedback">
+	                	<span>{{error}}</span>
+	               	</div>
+	           	{% endfor %}
+       		{% else %}
+
+	    		{{form.username(class="form-control", placeholder="Username")}}
+
+	    	{% endif %}
+
+	    	{{form.username.label(for="floatingInput")}}
 		</div>
 		<div class="form-floating">
-		  <input type="password" class="form-control" name="login_password" placeholder="Password">
-		  <label for="floatingPassword">Password</label>
-		</div>
+	       	{% if form.password.errors %}
+ 
+	       		{{form.password(class="form-control is-invalid", placeholder="Password")}}
+	           	{% for error in form.password.errors %}
+	            	<div class="invalid-feedback">
+	                	<span>{{error}}</span>
+	               	</div>
+	           	{% endfor %}
+       		{% else %}
+
+	    		{{form.password(class="form-control", placeholder="Password")}}
+
+	    	{% endif %}
+
+	    	{{form.password.label(for="floatingInput")}}
+	   	</div>
 		<div class="row justify-content-center">
 			<div class="col-sm-2">
-		    	<button type="submit" class="btn btn-primary">Log In</button>
-	    	</div>
+	       		{{form.send(class="btn btn-primary")}}
+	   		</div>
 	    	<div class="col-sm-2">
-	    		<button type="button" onclick="location.href='/signin'" class="btn btn-info">Sign in</button>
+	    		<button type="button" onclick="location.href='/signin'" class="btn btn-info">Register</button>
 	    	</div>
     	</div>
 	</form>

@@ -4,4 +4,7 @@ Cmake==3.22.4
 PyMySQL==1.0.2
 cryptography==37.0.2
 Werkzeug==2.1.2
-mysql-connector-python
+mysql-connector-python==8.0.29
+flask-bcrypt==1.0.1
+flask-wtf==1.0.1
+email_validator

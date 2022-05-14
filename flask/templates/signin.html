@@ -14,34 +14,95 @@
 	{% endwith %}
 
 	<form action="#" method="POST">
-	  <fieldset>
-	    <legend>Welcome to the team! Please, introduce your information:</legend>
-	    <div class="form-group">
-	      <label for="inputUsername" class="form-label mt-4">Name</label>
-	      <input type="username" class="form-control" id="inputName" name="signin_name" placeholder="Enter your name">
-	    </div>
-	    <div class="form-group">
-	      <label for="inputUsername" class="form-label mt-4">Username</label>
-	      <input type="username" class="form-control" id="inputUsername" name="signin_username" placeholder="Enter username">
-	    </div>
-	    <div class="form-group">
-	      <label for="inputEmail" class="form-label mt-4">Email address</label>
-	      <input type="email" class="form-control" id="inputEmail" name="signin_email" placeholder="Enter email">
-	      <small id="emailHelp" class="form-text text-muted">We will never share your email with anyone else.</small>
-	    </div>
-	    <div class="form-group">
-	      <label for="exampleInputPassword1" class="form-label mt-4">Password</label>
-	      <input type="password" class="form-control" id="exampleInputPassword1" name="signin_password" placeholder="Password">
-	    </div>
-	    <div class="form-group">
-	      <label for="exampleInputPassword1" class="form-label mt-4">Repeat the password</label>
-	      <input type="password" class="form-control" id="exampleInputPassword1" name="input_password_repeat" placeholder="Password">
-	    </div>
-	    <div class="row justify-content-center">
-			<div class="col-sm-2" margin:10px>
-		    	<button type="submit" class="btn btn-primary">Sign In</button>
+		{{form.hidden_tag()}}
+	  	<fieldset>
+	  		<legend>Welcome to the team! Please, introduce your information:</legend>
+		    <div class="form-group">
+		    	{{form.name.label(for="inputUsername", class="form-label mt-4")}}
+		    	{% if form.name.errors %}
+	 
+		       		{{form.name(class="form-control is-invalid", placeholder="Enter your name")}}
+		           	{% for error in form.name.errors %}
+		            	<div class="invalid-feedback">
+		                	<span>{{error}}</span>
+		               	</div>
+		           	{% endfor %}
+	       		{% else %}
+
+		    		{{form.name(class="form-control", placeholder="Enter your name")}}
+
+		    	{% endif %}
+		    </div>
+		    <div class="form-group">
+		    	{{form.username.label(for="inputUsername", class="form-label mt-4")}}
+		    	{% if form.username.errors %}
+	 
+		       		{{form.username(class="form-control is-invalid", placeholder="Enter username")}}
+		           	{% for error in form.username.errors %}
+		            	<div class="invalid-feedback">
+		                	<span>{{error}}</span>
+		               	</div>
+		           	{% endfor %}
+	       		{% else %}
+
+		    		{{form.username(class="form-control", placeholder="Enter username")}}
+
+		    	{% endif %}
+		    </div>
+		    <div class="form-group">
+		    	{{form.email.label(for="inputUsername", class="form-label mt-4")}}
+		    	{% if form.email.errors %}
+	 
+		       		{{form.email(class="form-control is-invalid", placeholder="Enter email")}}
+		           	{% for error in form.email.errors %}
+		            	<div class="invalid-feedback">
+		                	<span>{{error}}</span>
+		               	</div>
+		           	{% endfor %}
+	       		{% else %}
+
+		    		{{form.email(class="form-control", placeholder="Enter email")}}
+
+		    	{% endif %}
+		      	<small id="emailHelp" class="form-text text-muted">We will never share your email with anyone else.</small>
+		    </div>
+		    <div class="form-group">
+		    	{{form.password.label(for="inputUsername", class="form-label mt-4")}}
+		    	{% if form.password.errors %}
+	 
+		       		{{form.password(class="form-control is-invalid", placeholder="Password")}}
+		           	{% for error in form.password.errors %}
+		            	<div class="invalid-feedback">
+		                	<span>{{error}}</span>
+		               	</div>
+		           	{% endfor %}
+	       		{% else %}
+
+		    		{{form.password(class="form-control", placeholder="Password")}}
+
+		    	{% endif %}
+		    </div>
+		    <div class="form-group">
+		    	{{form.confirm_password.label(for="inputUsername", class="form-label mt-4")}}
+		    	{% if form.confirm_password.errors %}
+	 
+		       		{{form.confirm_password(class="form-control is-invalid", placeholder="Password")}}
+		           	{% for error in form.confirm_password.errors %}
+		            	<div class="invalid-feedback">
+		                	<span>{{error}}</span>
+		               	</div>
+		           	{% endfor %}
+	       		{% else %}
+
+		    		{{form.confirm_password(class="form-control", placeholder="Password")}}
+
+		    	{% endif %}
+		    </div>
+		    <div class="row justify-content-center">
+				<div class="col-sm-2" margin:10px>
+			    	{{form.send(class="btn btn-primary")}}
+		    	</div>
 	    	</div>
-    	</div>
-	  </fieldset>
+    	</fieldset>
 	</form>
 {% endblock %}
