@@ -13,6 +13,18 @@ services:
             - "8000:5000"
         depends_on:
             - "database"
+            - "minio"
+        environment:
+            MINIO: 'minio:9000'
+            MINIO_PREFIX: 'http://localhost:9000/'
+            MINIO_ROOT_USER: &user minio
+            MINIO_ROOT_PASSWORD: &password minio123
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:8000/web/health/live"]
+            interval: 30s
+            timeout: 20s
+            retries: 3
+
     database:
         image: mysql:8.0.21
         networks:
@@ -23,6 +35,52 @@ services:
             MYSQL_ROOT_PASSWORD: root
         ports:
             - "30000:3306"
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:30000/database/health/live"]
+            interval: 30s
+            timeout: 20s
+            retries: 3
+
+    minio:
+        image: minio/minio:RELEASE.2022-05-08T23-50-31Z
+        networks:
+            - main_net
+        volumes:
+            - minio-data:/data
+        environment:
+            MINIO_ROOT_USER: *user
+            MINIO_ROOT_PASSWORD: *password
+        ports:
+            - "9000:9000"
+            - "9001:9001"
+        command: server /data
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+            interval: 30s
+            timeout: 20s
+            retries: 3
+        command: server /data
+        command: server /data --console-address ":9001"
+
+    mc:
+        image: minio/mc:RELEASE.2022-05-09T04-08-26Z
+        networks:
+            - main_net
+        environment:
+            MINIO_ROOT_USER: *user
+            MINIO_ROOT_PASSWORD: *password
+        depends_on:
+            - "minio"
+        entrypoint: >
+            /bin/sh -c "
+            curl --retry 3 --retry-connrefused --retry-delay 2 http://minio:9000 &&
+            /usr/bin/mc config host add --api s3v4 srv http://minio:9000 $${MINIO_ROOT_USER} $${MINIO_ROOT_PASSWORD} &&
+            /usr/bin/mc mb srv/publicimagesbucket &&
+            /usr/bin/mc policy set public srv/publicimagesbucket
+            "
 
 networks:
     main_net:
+
+volumes:
+    minio-data:
