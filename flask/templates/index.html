@@ -6,20 +6,14 @@
 
 {% block content %}
 
-	{% with messages = get_flashed_messages() %}
-		{% if messages %}
-			{% for msg in messages %}
-				<div class="alert alert-light">{{msg}}</div>
-			{% endfor %}
-		{% endif %}
-	{% endwith %}	
-
 	<div class="jumbotron" style="margin: auto; text-align: center;">
+		<br>
+		<br>
 		<h1>Image Repository Shopify Challenge</h1>
 		<br>
 		<p class="lead">This is an Image Repository built for the Shopify Data Engineer Intern Challenge Fall 2022. Hope you like it! :)</p>
 		<br>
-		<p class="text-muted">(Yes, this page is only for this)</p>
+		<p class="text-muted">Adrian Riesco</p>
 	</div>
 
 {% endblock %}

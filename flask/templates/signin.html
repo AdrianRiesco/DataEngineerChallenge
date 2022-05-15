@@ -5,13 +5,6 @@
 {% block title %}SignIn{% endblock %}
 
 {% block content %}
-	{% with messages = get_flashed_messages() %}
-		{% if messages %}
-			{% for msg in messages %}
-				<div class="alert alert-light">{{msg}}</div>
-			{% endfor %}
-		{% endif %}
-	{% endwith %}
 
 	<div class="jumbotron" style="margin: auto; text-align: center;">
 		<h1>User Register</h1>

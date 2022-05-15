@@ -6,14 +6,6 @@
 
 {% block content %}
 
-	{% with messages = get_flashed_messages() %}
-		{% if messages %}
-			{% for msg in messages %}
-				<div class="alert alert-light">{{msg}}</div>
-			{% endfor %}
-		{% endif %}
-	{% endwith %}	
-
     <form method="POST" enctype="multipart/form-data" class="form-inline justify-content-center">
     	{{form_upload.hidden_tag()}}
     	<fieldset>
@@ -45,9 +37,9 @@
 		<table class="table table-hover">
 			<thead>
 				<tr>
-					<th scope="col" style="width: 15%">Name</th>
-					<th scope="col" style="width: 70%">Image</th>
-					<th scope="col" style="width: 15%">Action</th>
+					<th scope="col">Filename</th>
+					<th scope="col">Image</th>
+					<th scope="col">Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -71,9 +63,9 @@
 		<table class="table table-hover">
 			<thead>
 				<tr>
-					<th scope="col">Name</th>
+					<th scope="col">Filename</th>
 					<th scope="col">Image</th>
-					<th scope="col">Delete?</th>
+					<th scope="col">Action</th>
 				</tr>
 			</thead>
 			<tbody>
