@@ -4,16 +4,6 @@ from app import app, getMysqlCon, executeQuery, get_minioPublicPolicy, home, log
 import pytest
 import os
 
-@pytest.fixture()
-def create_app():
-	fixture
-	flask_app.config['SECRET_KEY'] = "eroijfeoUhouILFE8YOhr21NDfJHKDBCDFsds" # The secret key could be stored in a .env file and avoid loading it to a public repository
-	flask_app.config['SESSION_PERMANENT'] = False
-	flask_app.config['MINIO'] = os.getenv("MINIO","localhost:9000")
-	flask_app.config['PREFIX'] = os.getenv("MINIO_PREFIX","http://localhost:9000/")
-
-	return flask_app
-
 def test_home_page_get():
 	'''
 	GIVEN a configured flask application
