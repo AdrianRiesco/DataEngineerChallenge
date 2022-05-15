@@ -1,7 +1,6 @@
 version: "3"
 
 services:
-    # Apache Spark master and two workers
     web:
         build: ../flask
         container_name: web_flask
