@@ -8,3 +8,4 @@ mysql-connector-python==8.0.29
 flask-bcrypt==1.0.1
 flask-wtf==1.0.1
 email_validator
+Minio
