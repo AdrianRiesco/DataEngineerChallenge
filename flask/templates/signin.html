@@ -8,101 +8,114 @@
 	{% with messages = get_flashed_messages() %}
 		{% if messages %}
 			{% for msg in messages %}
-				<p>{{msg}}</p>
+				<div class="alert alert-light">{{msg}}</div>
 			{% endfor %}
 		{% endif %}
 	{% endwith %}
 
-	<form action="#" method="POST">
+	<div class="jumbotron" style="margin: auto; text-align: center;">
+		<h1>User Register</h1>
+		<br>
+	</div>
+
+
+	<form action="#" method="POST" class="form-inline justify-content-center">
 		{{form.hidden_tag()}}
 	  	<fieldset>
-	  		<legend>Welcome to the team! Please, introduce your information:</legend>
-		    <div class="form-group">
-		    	{{form.name.label(for="inputUsername", class="form-label mt-4")}}
-		    	{% if form.name.errors %}
-	 
-		       		{{form.name(class="form-control is-invalid", placeholder="Enter your name")}}
-		           	{% for error in form.name.errors %}
-		            	<div class="invalid-feedback">
-		                	<span>{{error}}</span>
-		               	</div>
-		           	{% endfor %}
-	       		{% else %}
+	  		<div class="row form-group justify-content-center">
+				<div class="col-sm-4">
+			    	{{form.name.label(for="inputUsername", class="form-label mt-4")}}
+			    	{% if form.name.errors %}
+		 
+			       		{{form.name(class="form-control is-invalid", placeholder="Enter your name")}}
+			           	{% for error in form.name.errors %}
+			            	<div class="invalid-feedback">
+			                	<span>{{error}}</span>
+			               	</div>
+			           	{% endfor %}
+		       		{% else %}
 
-		    		{{form.name(class="form-control", placeholder="Enter your name")}}
+			    		{{form.name(class="form-control", placeholder="Enter your name")}}
 
-		    	{% endif %}
+			    	{% endif %}
+			    </div>
 		    </div>
-		    <div class="form-group">
-		    	{{form.username.label(for="inputUsername", class="form-label mt-4")}}
-		    	{% if form.username.errors %}
-	 
-		       		{{form.username(class="form-control is-invalid", placeholder="Enter username")}}
-		           	{% for error in form.username.errors %}
-		            	<div class="invalid-feedback">
-		                	<span>{{error}}</span>
-		               	</div>
-		           	{% endfor %}
-	       		{% else %}
+		    <div class="row form-group justify-content-center">
+				<div class="col-sm-4">
+			    	{{form.username.label(for="inputUsername", class="form-label mt-4")}}
+			    	{% if form.username.errors %}
+		 
+			       		{{form.username(class="form-control is-invalid", placeholder="Enter username")}}
+			           	{% for error in form.username.errors %}
+			            	<div class="invalid-feedback">
+			                	<span>{{error}}</span>
+			               	</div>
+			           	{% endfor %}
+		       		{% else %}
 
-		    		{{form.username(class="form-control", placeholder="Enter username")}}
+			    		{{form.username(class="form-control", placeholder="Enter username")}}
 
-		    	{% endif %}
-		    </div>
-		    <div class="form-group">
-		    	{{form.email.label(for="inputUsername", class="form-label mt-4")}}
-		    	{% if form.email.errors %}
-	 
-		       		{{form.email(class="form-control is-invalid", placeholder="Enter email")}}
-		           	{% for error in form.email.errors %}
-		            	<div class="invalid-feedback">
-		                	<span>{{error}}</span>
-		               	</div>
-		           	{% endfor %}
-	       		{% else %}
-
-		    		{{form.email(class="form-control", placeholder="Enter email")}}
-
-		    	{% endif %}
-		      	<small id="emailHelp" class="form-text text-muted">We will never share your email with anyone else.</small>
-		    </div>
-		    <div class="form-group">
-		    	{{form.password.label(for="inputUsername", class="form-label mt-4")}}
-		    	{% if form.password.errors %}
-	 
-		       		{{form.password(class="form-control is-invalid", placeholder="Password")}}
-		           	{% for error in form.password.errors %}
-		            	<div class="invalid-feedback">
-		                	<span>{{error}}</span>
-		               	</div>
-		           	{% endfor %}
-	       		{% else %}
-
-		    		{{form.password(class="form-control", placeholder="Password")}}
-
-		    	{% endif %}
-		    </div>
-		    <div class="form-group">
-		    	{{form.confirm_password.label(for="inputUsername", class="form-label mt-4")}}
-		    	{% if form.confirm_password.errors %}
-	 
-		       		{{form.confirm_password(class="form-control is-invalid", placeholder="Password")}}
-		           	{% for error in form.confirm_password.errors %}
-		            	<div class="invalid-feedback">
-		                	<span>{{error}}</span>
-		               	</div>
-		           	{% endfor %}
-	       		{% else %}
-
-		    		{{form.confirm_password(class="form-control", placeholder="Password")}}
-
-		    	{% endif %}
-		    </div>
-		    <div class="row justify-content-center">
-				<div class="col-sm-2" margin:10px>
-			    	{{form.send(class="btn btn-primary")}}
+			    	{% endif %}
 		    	</div>
-	    	</div>
+		    </div>
+		    <div class="row form-group justify-content-center">
+				<div class="col-sm-4">
+			    	{{form.email.label(for="inputUsername", class="form-label mt-4")}}
+			    	{% if form.email.errors %}
+		 
+			       		{{form.email(class="form-control is-invalid", placeholder="Enter email")}}
+			           	{% for error in form.email.errors %}
+			            	<div class="invalid-feedback">
+			                	<span>{{error}}</span>
+			               	</div>
+			           	{% endfor %}
+		       		{% else %}
+
+			    		{{form.email(class="form-control", placeholder="Enter email")}}
+
+			    	{% endif %}
+			      	<small id="emailHelp" class="form-text text-muted">We will never share your email with anyone else.</small>
+		      	</div>
+		    </div>
+		    <div class="row form-group justify-content-center">
+				<div class="col-sm-4">
+			    	{{form.password.label(for="inputUsername", class="form-label mt-4")}}
+			    	{% if form.password.errors %}
+		 
+			       		{{form.password(class="form-control is-invalid", placeholder="Password")}}
+			           	{% for error in form.password.errors %}
+			            	<div class="invalid-feedback">
+			                	<span>{{error}}</span>
+			               	</div>
+			           	{% endfor %}
+		       		{% else %}
+
+			    		{{form.password(class="form-control", placeholder="Password")}}
+
+			    	{% endif %}
+		    	</div>
+		    </div>
+		    <div class="row form-group justify-content-center">
+				<div class="col-sm-4">
+			    	{{form.confirm_password.label(for="inputUsername", class="form-label mt-4")}}
+			    	{% if form.confirm_password.errors %}
+		 
+			       		{{form.confirm_password(class="form-control is-invalid", placeholder="Password")}}
+			           	{% for error in form.confirm_password.errors %}
+			            	<div class="invalid-feedback">
+			                	<span>{{error}}</span>
+			               	</div>
+			           	{% endfor %}
+		       		{% else %}
+
+			    		{{form.confirm_password(class="form-control", placeholder="Password")}}
+
+			    	{% endif %}
+		    	</div>
+		    </div>
+	    	<div class="col form-group center-block text-center">
+	       		{{form.send(class="btn btn-primary", style="margin:10px;")}}
+			</div>
     	</fieldset>
 	</form>
 {% endblock %}

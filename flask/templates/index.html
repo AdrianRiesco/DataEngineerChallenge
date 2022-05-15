@@ -6,8 +6,20 @@
 
 {% block content %}
 
-	<h1>Hello!</h1>
-	<p>This is an Image Repository built for the Shopify Data Engineer Intern Challenge Fall 2022.</p>
-	<p>Hope you like it! :)</p>
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			{% for msg in messages %}
+				<div class="alert alert-light">{{msg}}</div>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}	
+
+	<div class="jumbotron" style="margin: auto; text-align: center;">
+		<h1>Image Repository Shopify Challenge</h1>
+		<br>
+		<p class="lead">This is an Image Repository built for the Shopify Data Engineer Intern Challenge Fall 2022. Hope you like it! :)</p>
+		<br>
+		<p class="text-muted">(Yes, this page is only for this)</p>
+	</div>
 
 {% endblock %}

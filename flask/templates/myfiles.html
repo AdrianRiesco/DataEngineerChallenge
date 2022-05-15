@@ -9,40 +9,88 @@
 	{% with messages = get_flashed_messages() %}
 		{% if messages %}
 			{% for msg in messages %}
-				<p>{{msg}}</p>
+				<div class="alert alert-light">{{msg}}</div>
 			{% endfor %}
 		{% endif %}
 	{% endwith %}	
 
+    <form method="POST" enctype="multipart/form-data" class="form-inline justify-content-center">
+    	{{form_upload.hidden_tag()}}
+    	<fieldset>
+    		<div class="row form-group justify-content-center">
+    			<p class="text-primary" style="margin: auto; text-align: center;">Upload image</p>
+				<div class="col-sm-6">
+					    {{form_upload.file(class="form-control")}}	    
+				</div>
+				<div class="col-sm-2">
+					    {{form_upload.send(class="btn btn-success")}}   
+				</div>
+			</div>
+			<div class="row form-group justify-content-center">
+				{% for choice in form_upload.visibility %}
+					<div class="col-sm-2">
+						<label class="form-check-label">
+						{{choice(class="form-check-input")}}
+						{{choice.label()}}
+						</label>
+					</div>
+				{% endfor %}
+			</div>
+
+		</fieldset>
+	</form>
+
 	<div>
-	    <form method="POST" enctype="multipart/form-data">
-	    	{{form.hidden_tag()}}
-	    	<fieldset class="form-group">
-	    		<legend class="mt-4">Upload an image</legend>
-	    		<div class="custom-file">
-				    {{form.file(class="form-control")}}
-				    
-				</div>
-				<div>
-					{% for choice in form.visibility %}
-						<div class="form-check">
-							<label class="form-check-label">
-							{{choice(class="form-check-input")}}
-							{{choice.label()}}
-							</label>
-						</div>
-					{% endfor %}
-				</div>
-				<div>
-					{{form.send(class="btn btn-light")}}
-				</div>
-			</fieldset>
-		</form>
+		<h1>List of public images</h1>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th scope="col" style="width: 15%">Name</th>
+					<th scope="col" style="width: 70%">Image</th>
+					<th scope="col" style="width: 15%">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for file in public_files %}
+					<tr class="table-light">
+						<th scope="row">{{file.object_name}}</th>
+						<td><img src="{{prefix_public}}/{{file.object_name}}" caption="{{file.object_name}}" class="img-fluid"></td>
+						<td>
+							<form action="{{ url_for('delete_file') }}" method=POST class="row justify-content-md-center">
+							  <input type=hidden value="{{ file.object_name }}" name=filename />
+							  <input type=hidden value="public" name=visibility />
+							  <input type=submit class="btn btn-danger" value="DELETE"/>
+							</form>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<h1>List of {{username}}'s private images</h1>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th scope="col">Name</th>
+					<th scope="col">Image</th>
+					<th scope="col">Delete?</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for file in private_files %}
+					<tr class="table-light">
+						<th scope="row">{{file.object_name}}</th>
+						<td><img src="{{prefix_private}}/{{file.object_name}}" caption="{{file.object_name}}" class="img-fluid"></td>
+						<td>
+							<form action="{{ url_for('delete_file') }}" method=POST class="row justify-content-md-center">
+							  <input type=hidden value="{{ file.object_name }}" name=filename />
+							  <input type=hidden value="private" name=visibility />
+							  <input type=submit class="btn btn-danger" value="DELETE"/>
+							</form>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	</div>
-
-	<h1>List of public images
-	{% for file in files %}
-		<img src="{{ url_for('upload', filename=file) }}" style="width: 64px">
-	{% endfor %}</h1>
-
 {% endblock %}
