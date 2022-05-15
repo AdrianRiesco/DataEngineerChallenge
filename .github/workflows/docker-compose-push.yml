@@ -13,4 +13,8 @@ jobs:
     - name: Build the images
       run: docker-compose up -f docker/docker-compose.yml
     - name: Test service "web"
-      run: sudo curl --max-time 30 --retry-connrefused http://localhost:8000
+      run: docker run --network container:web_flask appropriate/curl -s --retry 10 --retry-connrefused http://localhost:8000
+    - name: Test service "database"
+      run: docker run --network container:database_mysql appropriate/curl -s --retry 10 --retry-connrefused http://localhost:30000
+    - name: Test service "web"
+      run: docker run --network container:minio_minio appropriate/curl -s --retry 10 --retry-connrefused http://localhost:9000
