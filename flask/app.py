@@ -1,7 +1,7 @@
 # Import libraries
 from flask import Flask, redirect, url_for, render_template, request, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import LoginForm, RegisterForm, UploadForm, DeleteForm
+from forms import LoginForm, RegisterForm, UploadForm
 from werkzeug.utils import secure_filename
 from flask_bcrypt import Bcrypt
 from datetime import timedelta
@@ -121,17 +121,14 @@ def home():
 # Login page
 @app.route("/login", methods=["POST", "GET"])
 def login():
-	print("*** LOGIN METHOD ***")
-
 	# Create forms
 	login_form = LoginForm()
 	upload_form = UploadForm()
-	delete_form = DeleteForm()
 
 	# Get all public images (including those of the current user)
 	public_images = client.list_objects("publicimagesbucket")
 
-	# Check if user already loged (session information is still present)
+	# Check if user already logded in (session information is still present)
 	if "name" in session:
 		name = session["name"]
 		username = session["username"]
@@ -139,14 +136,12 @@ def login():
 		# Get user's private images
 		private_images = client.list_objects(username.lower())
 
-		flash("Already loged in :)")
-		return redirect(url_for("myfiles", user = name, username = username, form_upload = upload_form, form_delete = delete_form, prefix_public = (app.config['PREFIX'] + "publicimagesbucket"),
+		flash("Already logged in :)", category = "info")
+		return redirect(url_for("myfiles", user = name, username = username, form_upload = upload_form, prefix_public = (app.config['PREFIX'] + "publicimagesbucket"),
 			prefix_private = (app.config['PREFIX'] + username.lower()), public_files = public_images, private_files = private_images))
 
 	# Check if user trying to log in
 	if login_form.validate_on_submit():
-		#session.permanent = True
-
 		username = login_form.username.data
 		password = login_form.password.data
 
@@ -169,30 +164,26 @@ def login():
 				# Get user's private images
 				private_images = client.list_objects(username.lower())
 
-				flash(f"You have been sucesfully logged in, {existing_name}! :)", category="success")
-				return render_template("myfiles.html", user = existing_name, username = username, form_upload = upload_form, form_delete = delete_form, prefix_public = (app.config['PREFIX'] + "publicimagesbucket"),
-					prefix_private = (app.config['PREFIX'] + username.lower()), public_files = public_images, private_files = private_images)
+				flash(f"You have been sucesfully logged in, {existing_name}! :)", category = "success")
+				return redirect(url_for("myfiles", user = existing_name, username = username, form_upload = upload_form, prefix_public = (app.config['PREFIX'] + "publicimagesbucket"),
+					prefix_private = (app.config['PREFIX'] + username.lower()), public_files = public_images, private_files = private_images))
 
-		flash(f"Error! User or password invalid", category="error")
-		return render_template("login.html", form = login_form)
+		flash(f"Error! User or password invalid", category = "danger")
 
 	return render_template("login.html", form = login_form)
 
 # Signin page
 @app.route("/signin", methods=["POST", "GET"])
 def signin():
-	print("*** SIGNIN METHOD ***")
 	register_form = RegisterForm()
 	upload_form = UploadForm()
-	delete_form = DeleteForm()
 
 	if register_form.validate_on_submit():
-		#session.permanent = True
+		# Get form data
 		name = register_form.name.data
 		username = register_form.username.data
 		email = register_form.email.data
 		password = register_form.password.data
-
 		hashed_password = bcrypt.generate_password_hash(password)
 
 		# Check if user exists
@@ -201,7 +192,7 @@ def signin():
 		response = executeQuery(sql, par, "get_one")
 
 		if response is not None:
-			flash(f"There is already an user registered with the same username! :)", category="info")
+			flash(f"There is already an user registered with the same username! :)", category = "error")
 			return redirect(url_for("signin", form = register_form))
 		else:
 			# Save session data
@@ -216,68 +207,62 @@ def signin():
 			# Get all public images
 			public_images = client.list_objects("publicimagesbucket")
 
-			print(client.get_bucket_policy("publicimagesbucket"))
 			# Create the user bucket
 			if not client.bucket_exists(username.lower()):
-				print(username.lower())
 				client.make_bucket(username.lower())
 				client.set_bucket_policy(username.lower(), json.dumps(get_minioPublicPolicy(username.lower())))
 			private_images = []
 
-			flash(f"You have been sucesfully registered, {name}! :)", category="success")
-			return redirect(url_for("myfiles", user = name, username = username, form_upload = upload_form, form_delete = delete_form, prefix_public = (app.config['PREFIX'] + "publicimagesbucket"),
-					prefix_private = (app.config['PREFIX'] + username.lower()), public_files = public_images, private_files = private_images))
+			flash(f"You have been sucesfully registered, {name}! :)", category = "success")
+			return redirect(url_for("myfiles", user = name, username = username, form_upload = upload_form, prefix_public = (app.config['PREFIX'] + "publicimagesbucket"),
+				prefix_private = (app.config['PREFIX'] + username.lower()), public_files = public_images, private_files = private_images))
 
 	return render_template("signin.html", form = register_form)
 
-# Main page where the images are displayed
+# Main page of the repository
 @app.route("/myfiles", methods=["POST", "GET"])
 def myfiles():
-	print("*** MYFILES METHOD ***")
 	login_form = LoginForm()
 	upload_form = UploadForm()
-	delete_form = DeleteForm()
 
 	# Check if the user is logged
 	if "name" in session:
 		name = session["name"]
 		username = session["username"]
-		print("1. User in session")
+
 		# Get all public images (including those of the current user)
 		public_images = client.list_objects("publicimagesbucket")
 
 		# Check if the form was valid
 		if upload_form.validate_on_submit():
 			# Get image data
-			print("2. Upload image form")
 			filename = secure_filename(upload_form.file.data.filename)
 			visibility = upload_form.visibility.data
 
-			# Check if the file is already stored by the user
-			sql = """select * from files where username=%s and filename=%s"""
-			par = (username, filename)
-			response1 = executeQuery(sql, par, "get_one")
+			response_private = None
+			response_public = None
 
-			# If user wants to store a public file, check if there is a file with the same name in the public bucket
-			if visibility == "public":
+			if visibility == "private":
+				# If the user wants to store a private image, check if the file is already stored by the user in his personal bucket
+				sql = """select * from files where username=%s and filename=%s and visibility=%s"""
+				par = (username, filename, visibility)
+				response_private = executeQuery(sql, par, "get_one")
+			else:
+				# If the user wants to store a public file, check if there is a file with the same name in the public bucket
 				sql = """select * from files where filename=%s and visibility=%s"""
 				par = (filename, "public")
-				response2 = executeQuery(sql, par, "get_one")
-			else:
-				response2 = None
+				response_public = executeQuery(sql, par, "get_one")
+				
 
 			# Check if the file is already stored
-			if response1 is not None or response2 is not None:
-				print("* Imagen NO guardada")
-				
+			if response_private is not None or response_public is not None:
 				# Get user's private images
 				private_images = client.list_objects(username.lower())
-
-				flash(f"Sorry, you cannot upload the same image twice", category="error")
-				
+				if visibility == "public":
+					flash(f"The public folder cannot contain two images with the same name", category = "danger")
+				else:
+					flash(f"You cannot upload the same image twice in your private folder", category = "danger")
 			else:
-				print("* Imagen guardada")
-
 				# Save image to minIO public or user bucket
 				if visibility == "public":
 					result = client.put_object(
@@ -304,55 +289,29 @@ def myfiles():
 				# Get user's private images
 				private_images = client.list_objects(username.lower())
 
-				flash(f"File uploaded!", category="success")
-		else:
-			# Get user's private images
-			private_images = client.list_objects(username.lower())
+				flash(f"File uploaded!", category = "success")
 
-			# Check if the user wants to delete an image
-			if delete_form.validate_on_submit():
-				print("3. Delete image form")
-				# Get form data
-				filename = secure_filename(delete_form.filename.data)
-				visibility = secure_filename(delete_form.visibility.data)
+		# Get user's private images
+		private_images = client.list_objects(username.lower())
 
-				print(filename)
-				print(visibility)
-
-				# Remove image from database and minIO (considering if public or private)
-				if visibility == "public":
-					sql = """delete from files where filename=%s and visibility=%s"""
-					par = (filename, visibility)
-					response = executeQuery(sql, par, "modify")
-
-					client.remove_object("publicimagesbucket", filename)
-				else:
-					sql = """delete from files where username=%s and filename=%s"""
-					par = (username, filename)
-					response = executeQuery(sql, par, "modify")
-
-					client.remove_object(username.lower(), filename)
-
-		print("4. Redirect")
 		# Render the page again
-		return render_template("myfiles.html", user = name, username = username, form_upload = upload_form, form_delete = delete_form, prefix_public = (app.config['PREFIX'] + "publicimagesbucket"),
+		return render_template("myfiles.html", user = name, username = username, form_upload = upload_form, prefix_public = (app.config['PREFIX'] + "publicimagesbucket"),
 			prefix_private = (app.config['PREFIX'] + username.lower()), public_files = public_images, private_files = private_images)
 
 	# Redirect to login
 	return redirect(url_for("login", form = login_form))
 
+# Delete an image
 @app.route("/delete", methods = ["POST"])
 def delete_file():
-	print("*** DELETE_FILE METHOD ***")
 	# Create the forms
 	login_form = LoginForm()
 	upload_form = UploadForm()
-	delete_form = DeleteForm()
 
 	if "name" in session:
 		name = session["name"]
 		username = session["username"]
-		print("1. User logged")
+
 		# Get all public images (including those of the current user)
 		public_images = client.list_objects("publicimagesbucket")
 
@@ -362,8 +321,7 @@ def delete_file():
 		# Get filename and visibility
 		filename = secure_filename(request.form["filename"])
 		visibility = request.form["visibility"]
-		print(filename)
-		print(visibility)
+
 		# Remove image from database and minIO (considering if public or private)
 		if visibility == "public":
 			sql = """delete from files where filename=%s and visibility=%s"""
@@ -378,11 +336,13 @@ def delete_file():
 
 			client.remove_object(username.lower(), filename)
 
-		return redirect(url_for("myfiles", user = name, username = username, form_upload = upload_form, form_delete = delete_form, prefix_public = (app.config['PREFIX'] + "publicimagesbucket"),
+		flash(f"Image deleted!", category = "success")
+		return redirect(url_for("myfiles", user = name, username = username, form_upload = upload_form, prefix_public = (app.config['PREFIX'] + "publicimagesbucket"),
 			prefix_private = (app.config['PREFIX'] + username.lower()), public_files = public_images, private_files = private_images))
 
 	return redirect(url_for("login", form = login_form))
 
+# End user session
 @app.route("/logout")
 def logout():
 	# Create the form
@@ -390,11 +350,12 @@ def logout():
 
 	if "name" in session:
 		name = session["name"]
-		flash(f"You have been sucesfully logged out, {name}! :)", category="info")
+		flash(f"You have been sucesfully logged out, {name}! :)", category = "success")
 
 	# Remove session data
 	session.pop("name", None)
 	session.pop("username", None)
+
 	return redirect(url_for("login", form = login_form))
 
 if __name__ == "__main__":
