@@ -4,6 +4,7 @@ services:
     # Apache Spark master and two workers
     web:
         build: ../flask
+        container_name: web_flask
         image: flask-docker
         networks:
             - main_net
@@ -27,6 +28,7 @@ services:
 
     database:
         image: mysql:8.0.21
+        container_name: database_flask
         networks:
             - main_net
         volumes:
@@ -43,6 +45,7 @@ services:
 
     minio:
         image: minio/minio:RELEASE.2022-05-08T23-50-31Z
+        container_name: minio_minio
         networks:
             - main_net
         volumes:
@@ -64,6 +67,7 @@ services:
 
     mc:
         image: minio/mc:RELEASE.2022-05-09T04-08-26Z
+        container_name: minio_client
         networks:
             - main_net
         environment:
