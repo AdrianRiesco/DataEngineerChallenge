@@ -21,12 +21,8 @@ class RegisterForm(FlaskForm):
     confirm_password  = PasswordField('Repeat password')
     send = SubmitField('Register')
 
+# Class for the upload image form
 class UploadForm(FlaskForm):
     file = FileField('Choose an image', validators=[FileRequired(), FileAllowed(['jpg', 'jpeg', 'png'], 'Wrong file format!')])
     visibility = RadioField('Visibility', choices=[('public','Public'),('private','Private')], default='public')
     send = SubmitField('Upload')
-
-class DeleteForm(FlaskForm):
-    filename = StringField('Filename', validators=[DataRequired()])
-    visibility = StringField('Visibility', validators=[DataRequired()])
-    send = SubmitField('Remove')
