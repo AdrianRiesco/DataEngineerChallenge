@@ -1,0 +1,16 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the images
+      run: docker-compose up -f docker/docker-compose.yml
+    - name: Test service "web"
+      run: sudo curl --max-time 30 --retry-connrefused http://localhost:8000
