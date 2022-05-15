@@ -6,13 +6,13 @@ This project is an image repository that allows the user to perform the followin
  - Create a user by entering name, username, email and password.
  - Login with username and password.
  - Upload images with public visibility (all users can see them) or private (only the user who uploaded them can see them).
- - Delete images from your user folder (private) or from the public folder.
+ - Delete images from the user folder (private) or from the public folder.
 
 This image repository has been built using **Docker** and **Docker Compose** to run containers with services from **Flask** (web application framework), **MySQL** (relational database), and **MinIO** (S3-compatible object-oriented storage).
 While Flask supports the web application, MySQL stores user and image information, and MinIO stores the images themselves in its buckets.
 
 When a user is created, the data (name, username, email, and encrypted password) is sent to MySQL and a bucket for that user is created in MinIO. When creating users, the only field that must be different is the username (that is, the email field can match).
-On the other hand, when an image is added or modified, its data (filename, username, and visibility) is added to MySQL and the file uploaded to the MinIO public or user bucket, depending on the selected visibility. A user can only have one image with each name within their private repository (images with the same name cannot be uploaded). Regarding the public repository, as it is shared by all users, it cannot contain images with the same name even if they are uploaded by different users. That is, a user cannot upload an image with the name "image.png" if an image with that name already exists in the public repository.
+On the other hand, when an image is added or modified, its data (filename, username, and visibility) is added to MySQL and the file uploaded to the MinIO public or user bucket, depending on the selected visibility. A user can only have one image with each name within their personal repository (images with the same name cannot be uploaded). Regarding the public repository, as it is shared by all users, it cannot contain images with the same name even if they are uploaded by different users. That is, a user cannot upload an image with the name "image.png" if an image with that name already exists in the public repository.
 
 ## Prerequisites
  - Git
@@ -20,22 +20,32 @@ On the other hand, when an image is added or modified, its data (filename, usern
  - Docker-compose
 
 ## Usage
-Clone the project and execute docker-compose.
+Clone the project and execute docker-compose in the command console.
 ```
 $ git clone git@github.com:AdrianRiesco/DataEngineerChallenge.git
 ...
 $ cd docker
 $ docker-compose up
 ```
+The url to access the web application is "http://localhost:8000/". If this URL does not work, please check the command console output to identify the URL corresponding to the "web" service.
+
+In case there is a need to reset the project after the upload (e.g., want to reset the users stored), run the following commands within the docker folder to ensure that all the services are built again:
+```
+$ sudo docker-compose down -v
+$ sudo docker-compose up --no-deps --remove-orphans --build
+```
+
+If you reset the project, you may need to clear your browser cookies or click "Logout" once in the webapp, as the previous user session may still be present and that may trigger errors (for example, trying to to access the bucket of the user with the active session when this has been deleted by the previous command).
 
 ## Additional features
-Because this project has been developed using containers, it makes it easy to extend the functionality of the application by adding other services.
+Due to the fact that this project has been developed using containers, it allows to extend the functionality of the application by adding other services and simplifies the scaling of the existing ones.
 
 If our goal is to modify existing services, the database can be easily altered via the initial build script, the MinIO configuration can be modified in docker-compose, and the web folder organization allows for new changes such as adding views or forms.
 
 Regarding the possible functionalities and improvements to be added, the following have emerged during its development:
  - Check password strength level and restrict weak passwords.
  - Limit the maximum weight of the images.
+ - Remove the parameters shown in the URL for some redirects.
  - Add the ability to upload and delete images in bulk.
  - Expand the range to other types of files, taking advantage of the object-oriented storage service used.
  - Add the possibility that users can comment or give feedback to public images.
