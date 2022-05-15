@@ -1,5 +1,5 @@
 ## Temporary LaTeX files
-*.git
-*.github
-*.pytest_cache
-*__pycache__
+.git/
+.github/
+.pytest_cache/
+__pycache__/
