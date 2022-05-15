@@ -28,7 +28,7 @@ services:
 
     database:
         image: mysql:8.0.21
-        container_name: database_flask
+        container_name: database_mysql
         networks:
             - main_net
         volumes:
