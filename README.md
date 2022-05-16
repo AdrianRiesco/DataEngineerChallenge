@@ -1,6 +1,6 @@
 # Shopify Data Engineer Challenge
 This **Image Repository** is made for the Shopify Data Engineer Internship challenge. The web application has been stored on Google Compute Engine to make it publicly available. You can download and execute the project locally or access via [Data Engineer Challenge](http://adrianriesco.com:8000/).
-> The web application was published as a second option in the last moments, so there is still the inconvenient that the images are not displayed (path indicates localhost instead the domain name), but their data is displayed and the changes are introduced in the database and the MinIO storage. You can still see the images in [MinIO Storage](http://adrianriesco.com:9000/) by using the user **minio** and password **minio123**.
+> The web application was published as a second option in the last moments, so there is still the inconvenient that the images are not displayed (path indicates localhost instead the domain name). However, the data is displayed and the changes are introduced in the database and the MinIO storage. You can still see the images in [MinIO Storage](http://adrianriesco.com:9000/) by using the user **minio** and password **minio123**.
 For a complete functionality, please **execute the project in your local environment**. In case you need, the folder test/images contain some example images to upload to the Image Repository.
 
 ## Description
