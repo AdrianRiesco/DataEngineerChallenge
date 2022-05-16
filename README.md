@@ -44,12 +44,13 @@ Due to the fact that this project has been developed using containers, it allows
 
 If our goal is to modify existing services, the database can be easily altered via the initial build script, the MinIO configuration can be modified in docker-compose, and the web folder organization allows for new changes such as adding views or forms.
 
-Regarding the possible functionalities and improvements to be added, the following have emerged during its development:
+Regarding the possible improvements and functionalities to be added, the following have emerged during its development:
  - Check password strength level and restrict weak passwords.
  - Limit the maximum weight of the images.
  - Hide the parameters shown in the URL for the redirects.
  - Separate the elements of the flask application file into different configuration and model files, and create User and File classes.
  - Add more tests, since the existing ones are only a sample and could be more numerous.
+ - Prevent the creation of an user account with the same name of the public bucket (filtering the name or prepopulating the database with that user).
  - Create an admin account and provide the ability to delete users or reset the project. Currently, users are removed via command line.
  - Add the ability to upload and delete images in bulk.
  - Expand the range to other types of files, taking advantage of the object-oriented storage service used.
