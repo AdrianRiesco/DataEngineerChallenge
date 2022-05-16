@@ -1,5 +1,5 @@
 # Shopify Data Engineer Challenge
-This Image Repository is made for the Shopify Data Engineer Internship challenge. The web application has been stored on Google Compute Engine to make it publicly available. You can download and execute the project locally or access via [Data Engineer Challenge](http://adrianriesco.com:8000/).
+This Image Repository is made for the Shopify Data Engineer Internship challenge. The web application has been stored on Google Compute Engine to make it publicly available. You can download and execute the project locally or access via [Data Engineer Challenge](http://adrianriesco.com:8000/). If the link is not accessible for any reason, please execute the project in your local environment.
 
 ## Description
 This project is an image repository that allows the user to perform the following actions:
@@ -45,9 +45,10 @@ If our goal is to modify existing services, the database can be easily altered v
 Regarding the possible functionalities and improvements to be added, the following have emerged during its development:
  - Check password strength level and restrict weak passwords.
  - Limit the maximum weight of the images.
- - Remove the parameters shown in the URL for some redirects.
+ - Hide the parameters shown in the URL for the redirects.
  - Separate the elements of the flask application file into different configuration and model files, and create User and File classes.
  - Add more tests, since the existing ones are only a sample and could be more numerous.
+ - Create an admin account and provide the ability to delete users or reset the project. Currently, users are removed via command line.
  - Add the ability to upload and delete images in bulk.
  - Expand the range to other types of files, taking advantage of the object-oriented storage service used.
  - Add the possibility that users can comment or give feedback to public images.
