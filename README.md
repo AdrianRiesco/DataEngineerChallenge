@@ -1,5 +1,5 @@
 # Shopify Data Engineer Challenge
-This Image Repository is made for the Shopify Data Engineer Internship challenge.
+This Image Repository is made for the Shopify Data Engineer Internship challenge. The web application has been stored on Google Compute Engine to make it publicly available. You can download and execute the project locally or access via [Data Engineer Challenge](http://adrianriesco.com:8000/).
 
 ## Description
 This project is an image repository that allows the user to perform the following actions:
@@ -22,7 +22,7 @@ On the other hand, when an image is added or modified, its data (filename, usern
 ## Usage
 Clone the project and execute docker-compose in the command console.
 ```
-$ git clone git@github.com:AdrianRiesco/DataEngineerChallenge.git
+$ git clone https://github.com/AdrianRiesco/DataEngineerChallenge.git
 ...
 $ cd docker
 $ docker-compose up
@@ -47,6 +47,7 @@ Regarding the possible functionalities and improvements to be added, the followi
  - Limit the maximum weight of the images.
  - Remove the parameters shown in the URL for some redirects.
  - Separate the elements of the flask application file into different configuration and model files, and create User and File classes.
+ - Add more tests, since the existing ones are only a sample and could be more numerous.
  - Add the ability to upload and delete images in bulk.
  - Expand the range to other types of files, taking advantage of the object-oriented storage service used.
  - Add the possibility that users can comment or give feedback to public images.
