@@ -35,7 +35,7 @@ The url to access the web application is "http://localhost:8000/". If this URL d
 In case there is a need to reset the project after the upload (e.g., want to reset the users stored), run the following commands within the docker folder to ensure that all the services are built again:
 ```
 $ sudo docker-compose down -v
-$ sudo docker-compose up --no-deps --remove-orphans --build
+$ sudo docker-compose up --build
 ```
 
 If you reset the project, you may need to clear your browser cookies or click "Logout" once in the webapp, as the previous user session may still be present and that may trigger errors (for example, trying to to access the bucket of the user with the active session when this has been deleted by the previous command).
