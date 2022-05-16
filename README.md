@@ -1,5 +1,5 @@
 # Shopify Data Engineer Challenge
-This Image Repository is made for the Shopify Data Engineer Internship challenge. The web application has been stored on Google Compute Engine to make it publicly available. You can download and execute the project locally or access via [Data Engineer Challenge](http://adrianriesco.com:8000/). If the link is not accessible for any reason, please execute the project in your local environment. The folder test/images contain some example images to upload to the repository.
+This Image Repository is made for the Shopify Data Engineer Internship challenge. The web application has been stored on Google Compute Engine to make it publicly available. You can download and execute the project locally or access via [Data Engineer Challenge](http://adrianriesco.com:8000/). If the link is not accessible for any reason, please execute the project in your local environment. In case you need, the folder test/images contain some example images to upload to the Image Repository.
 
 ## Description
 This project is an image repository that allows the user to perform the following actions:
