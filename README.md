@@ -24,7 +24,7 @@ Clone the project and execute docker-compose in the command console.
 ```
 $ git clone https://github.com/AdrianRiesco/DataEngineerChallenge.git
 ...
-$ cd docker
+$ cd DataEngineerChallenge/docker
 $ docker-compose up
 ```
 The url to access the web application is "http://localhost:8000/". If this URL does not work, please check the command console output to identify the URL corresponding to the "web" service.
