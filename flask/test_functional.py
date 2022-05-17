@@ -1,6 +1,7 @@
 # Import libraries
 from flask import Flask
 from app import app, getMysqlCon, executeQuery, get_minioPublicPolicy, home, login, signin, myfiles, delete_file, logout
+from forms import LoginForm, RegisterForm, UploadForm
 import pytest
 import os
 
@@ -48,7 +49,7 @@ def test_login_page_post():
 	'''
 
 	with app.test_client() as test_client:
-		response = test_client.get('/login')
+		response = test_client.post('/login')
 		assert response.status_code == 200
 		assert b'User Login' in response.data
 
@@ -72,7 +73,7 @@ def test_signin_page_post():
 	'''
 
 	with app.test_client() as test_client:
-		response = test_client.get('/signin')
+		response = test_client.post('/signin')
 		assert response.status_code == 200
 		assert b'User Register' in response.data
 
@@ -95,14 +96,14 @@ def test_myfiles_page_post():
 	'''
 
 	with app.test_client() as test_client:
-		response = test_client.get('/myfiles')
+		response = test_client.post('/myfiles')
 		assert response.status_code == 302
 
 def test_delete_page_get():
 	'''
 	GIVEN a configured flask application
 	WHEN the '/delete' page is requested (GET)
-	THEN check that the response is valid
+	THEN check that the response is valid (method not allowed)
 	'''
 
 	with app.test_client() as test_client:
@@ -117,8 +118,8 @@ def test_delete_page_post():
 	'''
 
 	with app.test_client() as test_client:
-		response = test_client.get('/delete')
-		assert response.status_code == 405
+		response = test_client.post('/delete')
+		assert response.status_code == 302
 
 def test_logout_page_get():
 	'''
@@ -135,9 +136,9 @@ def test_logout_page_post():
 	'''
 	GIVEN a configured flask application
 	WHEN the '/logout' page is posted to (POST)
-	THEN check that the response is valid
+	THEN check that the response is valid (method not allowed)
 	'''
 
 	with app.test_client() as test_client:
-		response = test_client.get('/logout')
-		assert response.status_code == 302
+		response = test_client.post('/logout')
+		assert response.status_code == 405

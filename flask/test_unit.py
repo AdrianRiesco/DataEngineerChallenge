@@ -3,7 +3,6 @@ from flask import Flask
 from app import app, executeQuery, get_minioPublicPolicy
 from minio import Minio
 import mysql.connector
-import subprocess
 import pytest
 import json
 import os, io
@@ -17,7 +16,6 @@ def new_minio_client():
 
 	return minio_client
 
-#***Minio test
 def test_minio_make_remove_bucket(new_minio_client):
 	'''
 	GIVEN a minio client
@@ -52,20 +50,5 @@ def test_minio_add_remove_object(new_minio_client):
 
 	new_minio_client.remove_object("testbucket", "dummyObject")
 	assert "dummyObject" not in new_minio_client.list_objects("testbucket")
-
-	new_minio_client.remove_bucket("testbucket")
-
-def test_minio_get_set_policy(new_minio_client):
-	'''
-	GIVEN a minio client
-	WHEN we set a policy to a bucket
-	THEN check that the policy is created
-	'''
-
-	if not new_minio_client.bucket_exists("testbucket"):
-		new_minio_client.make_bucket("testbucket")
-
-	new_minio_client.set_bucket_policy("testbucket", json.dumps(get_minioPublicPolicy("testbucket")))
-	assert json.dumps(new_minio_client.get_bucket_policy("testbucket")) == json.dumps(json.dumps(get_minioPublicPolicy("testbucket")))
 
 	new_minio_client.remove_bucket("testbucket")
