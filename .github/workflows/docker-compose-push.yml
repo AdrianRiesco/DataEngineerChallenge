@@ -11,8 +11,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the images
-      run: sudo docker-compose -f docker/docker-compose.yml up -d
+      run: docker-compose -f docker/docker-compose.yml up -d
     - name: Test service "web"
       run: docker run --network container:web_flask appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000 -v
     - name: Test service "minio"
       run: docker run --network container:minio_minio appropriate/curl -s --retry 10 --retry-connrefused http://localhost:9000 -v
+    - name: Clean environment
+      run: docker-compose -f docker/docker-compose.yml down -v
