@@ -17,15 +17,6 @@ def new_minio_client():
 
 	return minio_client
 
-# Function to order the JSON files
-def json_order(my_json):
-    if isinstance(my_json, dict):
-        return sorted((k, ordered(v)) for k, v in my_json.items())
-    if isinstance(my_json, list):
-        return sorted(ordered(x) for x in my_json)
-    else:
-        return my_json
-
 #***Minio test
 def test_minio_make_remove_bucket(new_minio_client):
 	'''
@@ -75,6 +66,6 @@ def test_minio_get_set_policy(new_minio_client):
 		new_minio_client.make_bucket("testbucket")
 
 	new_minio_client.set_bucket_policy("testbucket", json.dumps(get_minioPublicPolicy("testbucket")))
-	assert json.dumps(json_order(new_minio_client.get_bucket_policy("testbucket"))) == json.dumps(json_order(json.dumps(get_minioPublicPolicy("testbucket"))))
+	assert json.dumps(new_minio_client.get_bucket_policy("testbucket")) == json.dumps(json.dumps(get_minioPublicPolicy("testbucket")))
 
 	new_minio_client.remove_bucket("testbucket")
