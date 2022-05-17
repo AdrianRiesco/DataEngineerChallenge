@@ -1,0 +1,16 @@
+CREATE DATABASE testDB;
+use testDB;
+
+CREATE TABLE users (
+	username VARCHAR(50) NOT NULL PRIMARY KEY,
+	name VARCHAR(50) NOT NULL,
+	email VARCHAR(100) NOT NULL,
+	password VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE files (
+	username VARCHAR(50) NOT NULL,
+	filename VARCHAR(50) NOT NULL,
+	visibility VARCHAR(100) NOT NULL,
+	CONSTRAINT PK_ID PRIMARY KEY (username, filename)
+);
