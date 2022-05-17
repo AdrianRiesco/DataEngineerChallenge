@@ -50,7 +50,7 @@ Regarding the possible improvements and functionalities to be added, the followi
  - Limit the maximum weight of the images.
  - Hide the parameters shown in the URL for the redirects.
  - Separate the elements of the flask application file into different configuration and model files, and create User and File classes.
- - Add more tests, since the existing ones are only a sample and could be more numerous.
+ - Add more tests, since the existing ones are only a sample and could be more numerous and cover more aspects of each service container.
  - Prevent the creation of an user account with the same name of the public bucket (filtering the name or prepopulating the database with that user).
  - Create an admin account and provide the ability to delete users or reset the project. Currently, users are removed via command line.
  - Add the ability to upload and delete images in bulk.
