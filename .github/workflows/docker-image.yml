@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Run the MySQL test Docker container
-      run: docker-compose -f docker/docker-compose.yml run --rm --name database_mysql_test --no-deps database
+      run: docker-compose -f docker/docker-compose.yml run --rm --name database_mysql_test --no-deps -d database
     - name: Access to MySQL with root user
       run: docker exec -it database_mysql mysql -uroot -proot testDB
     - name: Create users
