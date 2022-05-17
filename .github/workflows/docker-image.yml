@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run the MySQL test Docker container
+      run: docker-compose -f docker/docker-compose.yml run --rm --name database_mysql_test --no-deps database
+    - name: Access to MySQL with root user
+      run: docker exec -it database_mysql mysql -uroot -proot testDB
+    - name: Create users
+      run: select * from users;
