@@ -1,5 +1,5 @@
 # Shopify Data Engineer Intern Challenge
-**UPDATE**: The web application on Google Cloud has been paused to save resources. In case anyone would like to access it, please do not hesitate to contact me so I can reactivate it.
+❗**UPDATE**: The web application on Google Cloud has been paused to save resources. In case anyone would like to access it, please do not hesitate to contact me so I can reactivate it.
 
 This **Image Repository** is made for the Shopify Data Engineer Intern challenge. The web application has been stored on Google Cloud (Compute Engine) to make it publicly available. You can download and execute the project locally or access via [Data Engineer Challenge](http://adrianriesco.com:8000/). In case you need, the folder example_images contains some beautiful images to upload to the Image Repository.
 > ℹ️ The web published is already populated with a few images in the public folder.
