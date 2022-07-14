@@ -1,10 +1,4 @@
-# Shopify Data Engineer Intern Challenge
-This **Image Repository** is made for the Shopify Data Engineer Intern challenge. The web application has been stored on Google Cloud (Compute Engine) to make it publicly available. You can download and execute the project locally or access via [Data Engineer Challenge](http://adrianriesco.com:8000/). In case you need, the folder test/images contain some beautiful images to upload to the Image Repository.
-> ℹ️ The web published is already populated with an user (Riesco//pass1234) who has stored a few images in the public and personal folders.
-
-> ⚠️ If you face any kind of problem or the web is working slow, I encourage you to run the project in your local environment.
-
-## Description
+# Image repository
 This project is an image repository that allows the user to perform the following actions:
  - Create a user by entering name, username, email and password.
  - Login with username and password.
@@ -16,6 +10,7 @@ This image repository has been built using **Docker** and **Docker Compose** to 
 When a user is created, the data (name, username, email, and encrypted password) is sent to MySQL and a bucket for that user is created in MinIO. When creating users, the only field that must be different is the username (that is, the email field can match).
 
 On the other hand, when an image is added or modified, its data (filename, username, and visibility) is added to MySQL and the file uploaded to the MinIO public or user bucket, depending on the selected visibility. A user can only have one image with each name within their personal repository (images with the same name cannot be uploaded). Regarding the public repository, as it is shared by all users, it cannot contain images with the same name even if they are uploaded by different users. That is, a user cannot upload an image with the name "image.png" if an image with the same name already exists in the public repository.
+> :information_source: In case you need, the folder example_images contains some beautiful images to upload to the Image Repository.
 
 ## Prerequisites
  - Git
@@ -50,7 +45,7 @@ Regarding the possible improvements and functionalities to be added, the followi
  - Limit the maximum weight of the images.
  - Hide the parameters shown in the URL for the redirects.
  - Separate the elements of the flask application file into different configuration and model files, and create User and File classes.
- - Add more tests, since the existing ones are only a sample and could be more numerous.
+ - Add more tests, since the existing ones are only a sample and could be more numerous and cover more aspects of each service container.
  - Prevent the creation of an user account with the same name of the public bucket (filtering the name or prepopulating the database with that user).
  - Create an admin account and provide the ability to delete users or reset the project. Currently, users are removed via command line.
  - Add the ability to upload and delete images in bulk.
