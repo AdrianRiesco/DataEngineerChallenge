@@ -1,12 +1,4 @@
-# Shopify Data Engineer Intern Challenge
-❗**UPDATE**: The web application on Google Cloud has been paused to save resources.
-
-This **Image Repository** is made for the Shopify Data Engineer Intern challenge. The web application has been stored on Google Cloud (Compute Engine) to make it publicly available. You can download and execute the project locally or access via [Data Engineer Challenge](http://adrianriesco.com:8000/). In case you need, the folder example_images contains some beautiful images to upload to the Image Repository.
-> ℹ️ The web published is already populated with a few images in the public folder.
-
-> ⚠️ If you face any kind of problem or the web is working slow, I encourage you to run the project in your local environment.
-
-## Description
+# Image repository
 This project is an image repository that allows the user to perform the following actions:
  - Create a user by entering name, username, email and password.
  - Login with username and password.
@@ -18,6 +10,7 @@ This image repository has been built using **Docker** and **Docker Compose** to 
 When a user is created, the data (name, username, email, and encrypted password) is sent to MySQL and a bucket for that user is created in MinIO. When creating users, the only field that must be different is the username (that is, the email field can match).
 
 On the other hand, when an image is added or modified, its data (filename, username, and visibility) is added to MySQL and the file uploaded to the MinIO public or user bucket, depending on the selected visibility. A user can only have one image with each name within their personal repository (images with the same name cannot be uploaded). Regarding the public repository, as it is shared by all users, it cannot contain images with the same name even if they are uploaded by different users. That is, a user cannot upload an image with the name "image.png" if an image with the same name already exists in the public repository.
+> :information_source: In case you need, the folder example_images contains some beautiful images to upload to the Image Repository.
 
 ## Prerequisites
  - Git
