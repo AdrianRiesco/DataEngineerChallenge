@@ -15,7 +15,7 @@ def test_home_page_get():
 	with app.test_client() as test_client:
 		response = test_client.get('/')
 		assert response.status_code == 200
-		assert b'Image Repository Shopify Challenge' in response.data
+		assert b'Image Repository' in response.data
 
 def test_home_page_post():
 	'''
@@ -27,7 +27,7 @@ def test_home_page_post():
 	with app.test_client() as test_client:
 		response = test_client.post('/')
 		assert response.status_code == 405
-		assert b'Image Repository Shopify Challenge' not in response.data
+		assert b'Image Repository' not in response.data
 
 def test_login_page_get():
 	'''
